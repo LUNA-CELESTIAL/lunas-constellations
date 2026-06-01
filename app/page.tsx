@@ -28,8 +28,9 @@ export default function Page() {
             </span>
           </div>
           
+          {/* 👑 ルル社長命名の神タイトルにリフォーム完了！ */}
           <h1 className="text-4xl md:text-6xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-400 to-purple-400 py-2 drop-shadow-[0_4px_10px_rgba(0,0,0,0.7)]">
-            真夜中のウサ耳タイムライン 📱🌙
+            サイバーウサギとネオン街 📱🌙
           </h1>
           
           <p className="text-xs md:text-sm text-zinc-400 font-bold max-w-sm mx-auto leading-relaxed">
