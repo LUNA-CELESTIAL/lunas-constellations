@@ -1,0 +1,30 @@
+# 🐍 Python系（絶対に載せない）
+__pycache__/
+*.pyc
+.venv/
+.env
+agents.py
+app.py
+
+# 🤖 Chainlit系（絶対に載せない）
+.chainlit/
+chainlit.md
+sales_logs.json
+workflow_api.json
+spica_scanner.py
+shipper_arms.py
+factory_arms.py
+graph_flow.py
+backup_app.py
+AGENTS.md
+CLAUDE.md
+
+# 📦 Node.js / Next.js系（ライブラリやビルド成果物）
+node_modules/
+.next/
+out/
+build/
+
+# OS
+.DS_Store
+*.log

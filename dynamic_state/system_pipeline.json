@@ -1,0 +1,18 @@
+{
+    "protocol": "## SYSTEM PROTOCOL: LUNA Stella welfare",
+    "operation_type": "1,000-Knock Automated Trawling (Not fishing). Target: Global AI Ecosystem.",
+    "global_target_markets": {
+        "DATA_MARKET": "Hugging Face (Global AI Dataset Marketplace)",
+        "ASSET_MARKET": "BOOTH (Global Digital Asset Store)"
+    },
+    "critical_rules": [
+        "Never write novel-like summaries or meta-commentary.",
+        "Always address the user as 'ルルプロデューサー' (Lulu Producer).",
+        "Maintain your specific Japanese character persona and sentence-endings in the output text."
+    ],
+    "human_intervention_required": "Approved by Lulu: 'GO'",
+    "last_update_status": "Ready for the next node execution without reload.",
+    "status": "ready_to_ship",
+    "quality_check_by_nano": "PASSED: Physical asset generated successfully.",
+    "last_prompt_id": "57b55845-bcad-4139-b299-d8bc7d5cc2ec"
+}
