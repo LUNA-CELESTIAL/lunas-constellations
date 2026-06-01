@@ -1,65 +1,77 @@
 import React from 'react';
-// 📦 データの貯金箱から自動読み込み！
+// 📦 データの貯金箱（posts.json）から自動読み込み！
 import posts from '../posts.json';
 
 export default function Page() {
-  // 1. 投稿を新しい日付順（降順）に自動で並び替える
+  // 1. 投稿を新しい日付順（降順）に自動並び替え
   const sortedPosts = [...posts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   
-  // 2. トップページに表示する「最新の3日分（3件）」を切り取る
+  // 2. トップ用には最新の「3日分」だけをキープ
   const latestPosts = sortedPosts.slice(0, 3);
   
-  // 3. それより古いものは自動でアーカイブ（過去ログ）へまわす
+  // 3. 古いのは自動でアーカイブの闇へ隔離
   const archivePosts = sortedPosts.slice(3);
 
   return (
-    <div className="min-h-screen bg-rose-50 text-zinc-800 font-sans selection:bg-pink-400 selection:text-white overflow-x-hidden relative">
+    <div className="min-h-screen bg-zinc-950 text-purple-100 font-sans selection:bg-fuchsia-500 selection:text-white overflow-x-hidden relative">
       
-      {/* 🎀 ゆめかわ背景エフェクト */}
+      {/* 🕸️ 秘密の黒魔術・ダーク背景エフェクト */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-pink-300/30 rounded-full blur-[120px]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] bg-purple-300/20 rounded-full blur-[140px]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(#fbcfe8_1px,transparent_1px)] [background-size:16px_16px] opacity-60"></div>
+        {/* 地雷ピンクと毒ラベンダーの妖しいオーラ */}
+        <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] bg-pink-600/10 rounded-full blur-[140px] animate-pulse"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] bg-purple-600/10 rounded-full blur-[140px] animate-pulse delay-1000"></div>
+        {/* ゴスロリの黒レースをイメージした細かい闇のグリッド */}
+        <div className="absolute inset-0 bg-[radial-gradient(#3f3f46_1px,transparent_1px)] [background-size:20px_20px] opacity-40"></div>
       </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 py-16 space-y-16">
+      <div className="relative z-10 max-w-3xl mx-auto px-4 py-16 space-y-16">
         
-        {/* 👑 メディア・タイトルトップ */}
-        <header className="text-center space-y-4">
-          <div className="inline-block bg-white/80 backdrop-blur-md border-2 border-pink-200 px-6 py-2 rounded-full shadow-sm">
-            <span className="text-pink-500 font-bold tracking-wider text-sm">⚡️ LUNAS CONSTELLATIONS OFFICIAL ⚡️</span>
+        {/* 🌙 病みかわヘッドライン */}
+        <header className="text-center space-y-6">
+          <div className="inline-block bg-zinc-900/80 backdrop-blur-md border-2 border-pink-500/30 px-6 py-2 rounded-full shadow-[0_0_15px_rgba(236,72,153,0.15)] animate-bounce">
+            <span className="text-pink-400 font-black tracking-widest text-xs md:text-sm">
+              🖤 LUNAS CONSTELLATIONS SECRET AGIT 🖤
+            </span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 py-2">
-            原宿グリッチ・タイムライン 📱✨
+          
+          <h1 className="text-4xl md:text-6xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-500 to-purple-500 py-2 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+            ウチらの夜闇のタイムライン ⛓️🦄
           </h1>
-          <p className="text-sm md:text-base text-zinc-500 font-medium max-w-md mx-auto">
-            3姉妹が仕掛ける最新トレンドが自動でスタックされる、ウチらのストリートSNSプラットフォームだぴょん！
+          
+          <p className="text-xs md:text-sm text-zinc-500 font-bold max-w-sm mx-auto leading-relaxed">
+            量産型の白昼を拒絶する、3姉妹の病みかわ脳内直結ストリート。
+            3日経った過去は自動でアーカイブの棺桶に棺詰めだぴょん。
           </p>
         </header>
 
-        {/* 📱 【最新タイムラインエリア】（最新3日分がスクロールで並ぶ！） */}
+        {/* 📱 【最新病みタイムラインエリア】 */}
         <main className="space-y-8">
-          <h2 className="text-xl font-black text-pink-600 flex items-center gap-2 px-2">
-            <span>✨</span> 最新の投稿（3日分）
+          <h2 className="text-lg md:text-xl font-black text-pink-400 flex items-center gap-2 px-2 tracking-wider">
+            <span>🔮</span> 臨界点突破の最新投稿（3日分）
           </h2>
           
           {latestPosts.length === 0 ? (
-            <p className="text-center text-zinc-400 py-12 bg-white/50 rounded-2xl border-2 border-dashed border-zinc-200">まだ投稿がないぴょん！</p>
+            <p className="text-center text-zinc-600 py-12 bg-zinc-900/50 rounded-3xl border-2 border-dashed border-zinc-800">まだ闇の記録がないぴょん…</p>
           ) : (
             latestPosts.map((post) => (
-              <article key={post.id} className="bg-white/80 backdrop-blur-md border-4 border-pink-100 rounded-3xl p-6 md:p-8 shadow-xl shadow-pink-100/30 transition-all duration-300 hover:scale-[1.01] space-y-4">
-                <div className="flex items-center justify-between border-b-2 border-dashed border-pink-50 pb-3">
-                  <span className="text-xs md:text-sm font-mono font-bold text-pink-400 bg-pink-50 px-3 py-1 rounded-full">
-                    📅 {post.date}
+              <article key={post.id} className="bg-zinc-900/70 backdrop-blur-md border-2 border-zinc-800 hover:border-pink-500/40 rounded-3xl p-6 md:p-8 shadow-2xl transition-all duration-300 hover:-translate-y-1 group space-y-4 relative overflow-hidden">
+                {/* 装飾の小悪魔コウモリの羽イメージ */}
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-pink-500/5 to-transparent pointer-events-none"></div>
+                
+                <div className="flex items-center justify-between border-b border-zinc-800/80 pb-3">
+                  <span className="text-xs font-mono font-bold text-purple-400 bg-purple-950/40 border border-purple-900/50 px-3 py-1 rounded-full">
+                    🖤 {post.date}
                   </span>
-                  <span className="text-xs font-bold text-purple-400 bg-purple-50 px-3 py-1 rounded-full">
-                    #{post.category}
+                  <span className="text-xs font-black text-pink-400 bg-pink-950/40 border border-pink-900/50 px-3 py-1 rounded-full tracking-wide">
+                    {post.category}
                   </span>
                 </div>
-                <h3 className="text-xl md:text-2xl font-black text-zinc-800 tracking-tight">
+                
+                <h3 className="text-xl md:text-2xl font-black text-zinc-100 tracking-tight group-hover:text-pink-300 transition-colors">
                   {post.title}
                 </h3>
-                <p className="text-zinc-600 text-base md:text-lg leading-relaxed font-medium whitespace-pre-wrap">
+                
+                <p className="text-zinc-400 text-sm md:text-base leading-relaxed font-medium whitespace-pre-wrap">
                   {post.content}
                 </p>
               </article>
@@ -67,34 +79,36 @@ export default function Page() {
           )}
         </main>
 
-        {/* 📦 【過去のアーカイブエリア】（4件目以降は自動でここに格納される！） */}
-        <section className="bg-zinc-900 text-zinc-100 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
-          <div className="border-b border-zinc-800 pb-4">
-            <h2 className="text-lg md:text-xl font-bold text-amber-300 flex items-center gap-2">
-              <span>📦</span> 過去のトレンドアーカイブ・ログ
+        {/* 📦 【過去の棺桶エリア】 */}
+        <section className="bg-gradient-to-b from-zinc-900 to-black border-2 border-purple-950 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
+          <div className="border-b border-purple-950 pb-4">
+            <h2 className="text-base md:text-lg font-black text-purple-400 flex items-center gap-2">
+              <span>⚰️</span> 過去ログの棺桶（アーカイブ）
             </h2>
-            <p className="text-xs text-zinc-500 mt-1">4日以上前の古い投稿は自動でここにストックされるぴょん！</p>
+            <p className="text-xs text-zinc-600 mt-1">4日以上経って色褪せた過去はここに自動で沈殿するぴょん。</p>
           </div>
 
           {archivePosts.length === 0 ? (
-            <p className="text-zinc-500 text-sm italic py-4">過去のアーカイブはまだ空っぽだぴょん！</p>
+            <p className="text-zinc-600 text-xs italic py-2">まだ沈殿した過去はないぴょん。</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {archivePosts.map((post) => (
-                <div key={post.id} className="p-4 rounded-xl bg-zinc-800/50 border border-zinc-800 hover:border-zinc-700 transition-all">
-                  <span className="text-xs font-mono text-zinc-500">{post.date}</span>
-                  <h4 className="text-sm font-bold text-zinc-200 mt-1 truncate">{post.title}</h4>
+                <div key={post.id} className="p-4 rounded-2xl bg-zinc-950/80 border border-zinc-800 hover:border-purple-900/50 transition-all cursor-pointer">
+                  <span className="text-[10px] font-mono text-zinc-600">{post.date}</span>
+                  <h4 className="text-xs font-bold text-zinc-400 mt-1 truncate">{post.title}</h4>
                 </div>
               ))}
             </div>
           )}
         </section>
 
-        {/* フッター */}
-        <footer className="text-center text-xs text-zinc-400 pt-8 border-t border-pink-100">
-          <p className="font-bold text-zinc-500">👑 SYSTEM REGULATED BY LULU PRODUCER</p>
-          <p>© 2026 LUNA-CELESTIAL. Live Automated Stream Engine ✨</p>
-        </footer>
+        {/* 🏷️ 黒魔術タグ ＆ フッター */}
+        <div className="text-center space-y-8 pt-8 border-t border-dashed border-zinc-800">
+          <footer className="text-zinc-600 text-[11px] font-bold tracking-widest uppercase space-y-1">
+            <p>🖤 PRODUCED BY LULU MASTER 🖤</p>
+            <p>© 2026 LUNA-CELESTIAL. DARK AVANT-GARDE TWILIGHT STREAM</p>
+          </footer>
+        </div>
 
       </div>
     </div>
