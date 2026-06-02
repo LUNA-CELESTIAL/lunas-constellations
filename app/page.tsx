@@ -103,4 +103,69 @@ export default function Page() {
             <p className="text-center text-zinc-600 py-12 bg-zinc-900/50 rounded-3xl border-2 border-dashed border-zinc-800">該当する投稿がないぴょん！</p>
           ) : (
             latestPosts.map((post) => (
-              <article key={post.id} className="bg-zinc-900/80 backdrop-blur-md border-2 border-zinc-800/80 hover:border-pink-
+              <article key={post.id} className="bg-zinc-900/80 backdrop-blur-md border-2 border-zinc-800/80 hover:border-pink-400/40 rounded-3xl p-6 md:p-8 shadow-2xl transition-all duration-300 hover:scale-[1.01] group space-y-4">
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+                  <span className="text-xs font-mono font-bold text-purple-400 bg-purple-950/50 px-3 py-1 rounded-full border border-purple-900/30">
+                    🌙 {post.date}
+                  </span>
+                  {/* タグをクリックしても絞り込めるエモ仕様！ */}
+                  <button
+                    onClick={() => setSelectedTag(post.category)}
+                    className="text-xs font-black text-pink-400 bg-pink-950/50 px-3 py-1 rounded-full border border-pink-900/30 tracking-wide hover:bg-pink-400 hover:text-zinc-950 transition-colors"
+                  >
+                    {post.category}
+                  </button>
+                </div>
+                
+                <h3 className="text-xl md:text-2xl font-black text-zinc-100 tracking-tight group-hover:text-pink-300 transition-colors">
+                  {post.title}
+                </h3>
+                
+                <p className="text-zinc-400 text-sm md:text-base leading-relaxed font-medium whitespace-pre-wrap">
+                  {post.content}
+                </p>
+              </article>
+            ))
+          )}
+        </main>
+
+        {/* 🌌 【過去のスクラップブックエリア】 */}
+        <section className="bg-gradient-to-b from-zinc-900 to-zinc-950 border-2 border-zinc-800 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
+          <div className="border-b border-zinc-800 pb-4">
+            <h2 className="text-base md:text-lg font-black text-purple-400 flex items-center gap-2">
+              <span>🔮</span> トワイライト・アーカイブ
+            </h2>
+            <p className="text-xs text-zinc-500 mt-1">タイムラインから溢れ出たエモみの増した過去ログが自動スタックされるぴょん。</p>
+          </div>
+
+          {archivePosts.length === 0 ? (
+            <p className="text-zinc-600 text-xs italic py-2">過去ログはまだ空っぽだぴょん。</p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {archivePosts.map((post) => (
+                <div 
+                  key={post.id} 
+                  onClick={() => setSelectedTag(post.category)}
+                  className="p-4 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-purple-500/30 transition-all cursor-pointer text-left"
+                >
+                  <span className="text-[10px] font-mono text-zinc-500">{post.date}</span>
+                  <h4 className="text-xs font-bold text-zinc-300 mt-1 truncate">{post.title}</h4>
+                  <div className="text-[10px] text-pink-400 mt-1 font-bold">{post.category}</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* フッター */}
+        <div className="text-center pt-8 border-t border-zinc-900">
+          <footer className="text-zinc-600 text-[11px] font-bold tracking-widest uppercase">
+            <p>👑 REGULATED BY LULU PRODUCER 👑</p>
+            <p className="mt-1">© 2026 LUNA-STELLA. CYBER TWILIGHT STREAM ENGINE</p>
+          </footer>
+        </div>
+
+      </div>
+    </div>
+  );
+}
