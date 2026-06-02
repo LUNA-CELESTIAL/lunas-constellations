@@ -164,7 +164,7 @@ export default function Page() {
         <div className="text-center pt-6 md:pt-8 border-t border-zinc-900">
           <footer className="text-zinc-600 text-[10px] md:text-[11px] font-bold tracking-widest uppercase space-y-1">
             <p>👑 REGULATED BY LULU PRODUCER 👑</p>
-            <p className="text-[9px] md:text-[11px]">© 2026 LUNA-STELLA. CYBER TWILIGHT STREAM ENGINE</p>
+            <p className="text-[9px] md:text-[11px]">© 2026 LUNAs constellations. CYBER TWILIGHT STREAM ENGINE</p>
           </footer>
         </div>
 
