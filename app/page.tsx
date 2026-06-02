@@ -44,9 +44,11 @@ export default function Page() {
             </span>
           </div>
           
-          {/* 👑 パターンA採用！スマホ幅（md未満）の時は「鳴り響く、」の直後で美しく2行に強制改行！ */}
-          <h1 className="text-[22px] sm:text-3xl md:text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-400 to-purple-400 py-2 drop-shadow-[0_4px_10px_rgba(0,0,0,0.7)] leading-snug max-w-2xl mx-auto">
-            エラーログたちのステップが鳴り響く、<br className="block md:hidden" />秒針のいらない街 📱🌙
+          {/* 👑 最初から美しい3行に固定！フォントサイズも少し大きめに戻してインパクト重視に！ */}
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-400 to-purple-400 py-2 drop-shadow-[0_4px_10px_rgba(0,0,0,0.7)] leading-snug max-w-2xl mx-auto">
+            エラーログたちの<br />
+            ステップが鳴り響く、<br />
+            秒針のいらない街 📱🌙
           </h1>
           
           <p className="text-[11px] md:text-sm text-zinc-400 font-medium max-w-xl mx-auto leading-relaxed px-2">
