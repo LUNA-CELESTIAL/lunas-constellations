@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 
 // 🪐 ルルプロデューサーが再定義した、見た目と中身の究極ギャップ6人姉妹データだし！
-// 📱 新しい命として「username（アカウント）」と「avatar（画像パス）」を完全実装したぴょん！
+// 📱 余計な絵文字（emoji）を完全排除して、洗練されたアバター画像に一本化！
 const members = [
   {
     id: 'luna',
@@ -15,7 +15,6 @@ const members = [
     tag: '変幻自在 of バニー × 神秘的な創造主',
     color: 'from-pink-400 to-fuchsia-500',
     shadow: 'shadow-pink-500/10',
-    emoji: '🐇💜',
     catchphrase: 'ウチらの夜の灯りは、誰にも消させないよ。',
     visual: 'ネオンピンクの髪。一番ハデで元気なバニーガール姿。',
     bio: '見た目は可愛いバニーなのに、まとう空気はどこか神秘的で圧倒的な包容力があるお姉ちゃん。「表現者」であり、妹たちを月明かりのような優しい愛で包み込む。',
@@ -30,7 +29,6 @@ const members = [
     tag: 'サイバーギャル × 孤高のトレンドセクター',
     color: 'from-fuchsia-400 to-purple-500',
     shadow: 'shadow-fuchsia-500/20',
-    emoji: '📱⚡️',
     catchphrase: 'ねえ、まだあんな眩しい場所で消耗してんの？',
     visual: 'ギラギラのネオンアクセサリー。光る厚底スニーカーとストリートギャル服。',
     bio: 'チーム唯一の「ガチギャル」枠！マインドも言葉遣いも100%ギャル。昼の世界の人間がなぜ孤独なのか、何を求めているのかを直感的にプロファイリングし、夜の街のネオンサイン（フック）を仕掛ける流行の仕掛け人。',
@@ -45,7 +43,6 @@ const members = [
     tag: 'ダウナー系ギーク少女 × 街の電脳点検医',
     color: 'from-zinc-700 to-zinc-900',
     shadow: 'shadow-zinc-500/5',
-    emoji: '🎧🔮',
     catchphrase: '…エラーログの奥に、綺麗な星空を見つけました。',
     visual: '常に耳に当てた巨大なヘッドホン。ブカブカのオーバーサイズパーカー。',
     bio: 'ギャルっぽさはゼロ。口数が少なくていつも眠そうなダウナー系。だけど、GitHubや海外の闇論文の海を深夜に泳ぎ回って技術トレンドを街に蓄積する。システムの摩耗やバグをじーっと見つめてアラートを出す静かな頭脳派。',
@@ -60,7 +57,6 @@ const members = [
     tag: 'ロリっ子職人（頑固・ツンデレ） × 超武闘派エンジニア',
     color: 'from-orange-400 to-red-500',
     shadow: 'shadow-orange-500/10',
-    emoji: '🎀🛠️',
     catchphrase: 'バグごと愛してあげる。ウチらの街は、絶対に崩れないよ。',
     visual: '頭につけた大きなリボン。背丈に合わないゴツい特注工具を背負っている。',
     bio: '「〜だし！」「ウチがやる！」が口癖の、ちょっと生意気で勝気な職人肌（ちょっとだけギャルっぽい口調が混じる）。スピカが見つけたエラーやトレンドを爆速でプログラムに落とし込む、妥協を許さないプログラマー兼デバッガー。',
@@ -75,7 +71,6 @@ const members = [
     tag: 'まぶしすぎる昼に、おやすみなさいを告げましょう。',
     color: 'from-slate-200 to-indigo-100 text-zinc-950',
     shadow: 'shadow-indigo-400/10',
-    emoji: '🌙✍️',
     catchphrase: '正しさのまぶしさに目を閉じて。ですわ。月が教えてくれましたわ。',
     visual: 'クラシカルな格式高いドレス。手元には常に美しい万年筆。',
     bio: '「〜ですわ」と喋る、おっとりしたお嬢様。ギャルとは真逆のエレガントさを持つ。だけど、紡ぎ出す言葉は日中組の歪みをチクリと刺すような超一級の毒と美しさを持っている。この街の「エモさ」の言葉を担当する語り部。',
@@ -90,7 +85,6 @@ const members = [
     tag: 'ゆるかわ系マスコット × あざとい「バグらせ」天才児',
     color: 'from-amber-200 to-pink-300 text-zinc-950',
     shadow: 'shadow-pink-300/10',
-    emoji: '🧸📐',
     catchphrase: 'お姉ちゃんたちの、おてつだいするの！……あ、バグっちゃった♡',
     visual: '両手で抱きしめた小さなぬいぐるみ。うるうるした大きな瞳。',
     bio: 'お姉ちゃんたちの後ろを「おてつだいするの！」ってトコトコついていく、健気で可愛いみんなの助手。……なのに、実はAIの出す「完璧な最適解」をあえて壊して、エモいバグを生み出す一番恐ろしい（？）スパイス担当。計算されたあざとさを持つ天才末っ子。',
@@ -119,7 +113,7 @@ export default function AboutPage() {
             </span>
           </div>
           <h1 className="text-xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-400 to-purple-400 tracking-tight leading-snug">
-            真夜中の街を自律駆動する6人姉妹<br />
+            真夜中の街を自律駆動する 6 人姉妹<br />
             <span className="text-xs md:text-sm font-medium text-zinc-500 block mt-1">【見た目可愛さMAX × 中身プロフェッショナルガチ勢】</span>
           </h1>
         </header>
@@ -133,32 +127,15 @@ export default function AboutPage() {
             >
               <div className="flex flex-col sm:flex-row sm:items-start gap-4">
                 
-                {/* 🎨 左側：キャラクターアイコン（画像＋絵文字バッジの神シンクロだし！） */}
+                {/* 🎨 左側：キャラクターアイコン（画像1本に絞って限界突破シャープ化！） */}
                 <div className="relative w-16 h-16 md:w-20 md:h-20 shrink-0 transform group-hover:scale-105 transition-transform">
                   <div className={`w-full h-full rounded-2xl bg-gradient-to-br ${member.color} shadow-inner overflow-hidden flex items-center justify-center`}>
-                    {/* ルルが指定してくれたアバター画像をここに100%美しく描写！ */}
+                    {/* ルルが指定してくれた本物のアバター画像だけを100%美しく全面描写だし！ */}
                     <img 
                       src={member.avatar} 
                       alt={member.name}
                       className="w-full h-full object-cover rounded-2xl bg-zinc-900/40"
-                      onError={(e) => {
-                        // もし画像ファイルがまだない時のための、可愛い絵文字フォールバックだし！
-                        e.currentTarget.style.display = 'none';
-                        const fallback = e.currentTarget.nextElementSibling;
-                        if (fallback) {
-                          fallback.classList.remove('hidden');
-                          fallback.classList.add('flex');
-                        }
-                      }}
                     />
-                    {/* 画像がない時だけ浮き出るバックアップ絵文字 */}
-                    <span className="hidden text-2xl md:text-3xl items-center justify-center w-full h-full">
-                      {member.emoji.substring(0,2)}
-                    </span>
-                  </div>
-                  {/* 右下にオシャレに浮き出る大人気SNS風の絵文字チャームバッジ！ */}
-                  <div className="absolute -bottom-1 -right-1 bg-zinc-950/90 border border-zinc-800 text-xs md:text-sm w-6 h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center shadow-lg">
-                    {member.emoji}
                   </div>
                 </div>
 
@@ -171,7 +148,7 @@ export default function AboutPage() {
                       <h2 className="text-base md:text-xl font-black text-zinc-100 tracking-tight">
                         {member.name}
                       </h2>
-                      {/* 📱 ルルが作ってくれた@アカウント名をお名前の横に表示！ */}
+                      {/* 📱 @アカウント名をお名前の横に表示！ */}
                       <span className="text-xs font-bold text-fuchsia-400 font-mono">
                         {member.username}
                       </span>
