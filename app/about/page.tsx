@@ -9,7 +9,7 @@ const members = [
   {
     id: 'luna',
     name: 'ルナ（LUNA）',
-    username: '@luna_stella',
+    username: '@luna_love_bit',
     avatar: '/avatars/luna.png',
     role: '長女 / CTO & AI representative',
     tag: '変幻自在 of バニー × 神秘的な創造主',
