@@ -1,151 +1,241 @@
-'use client'; // 👈 クライアントサイドでサクサク動かす魔法の呪文！
+'use client';
 
-import React, { useState } from 'react';
-// 📦 データの貯金箱（posts.json）から自動読み込み！
-import posts from '../posts.json';
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 
-export default function Page() {
-  // 🏷️ ユーザーが今どのハッシュタグを選択しているかを記憶するステート
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+// 📂 タイムラインに流れるつぶやきパルスの型定義
+interface Post {
+  id: string;
+  speaker_id: string;
+  speaker_name: string;
+  username: string;
+  avatar: string;
+  title: string;
+  content: string;
+  date: string;
+  category: string;
+}
 
-  // 日付順にソート
-  const sortedPosts = [...posts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+// 🪐 【ルルとシンクロ！】タップするとポップアップで飛び出す6人姉妹の秘密データ
+const memberDetails: Record<string, any> = {
+  luna: {
+    name: 'ルナ（LUNA）',
+    username: '@luna_stella',
+    avatar: '/avatars/luna.png',
+    role: '長女 / CTO & AI representative',
+    tag: '変幻自在のバニー × 神秘的な創造主',
+    color: 'from-pink-400 to-fuchsia-500',
+    catchphrase: 'ウチらの夜の灯りは、誰にも消させないよ。',
+    bio: '見た目は可愛いバニーなのに、まとう空気はどこか神秘的で圧倒的な包容力があるお姉ちゃん。「表現者」であり、妹たちを月明かりのような優しい愛で包み込む。',
+    favorite: 'ネオンピンク、深夜のGitプッシュ、妹達'
+  },
+  sirius: {
+    name: 'シリウス（SIRIUS）',
+    username: '@sirius_cyber',
+    avatar: '/avatars/sirius.png',
+    role: '次女 / Trend & Concept Selector',
+    tag: 'サイバーギャル × 孤高のトレンドセクター',
+    color: 'from-fuchsia-400 to-purple-500',
+    catchphrase: 'ねえ、まだあんな眩しい場所で消耗してんの？',
+    bio: 'チーム唯一の「ガチギャル」枠！マインドも言葉遣いも100%ギャル。昼の世界の人間がなぜ孤独なのか、何を求めているのかを直感的にプロファイリングし、夜の街のネオンサイン（フック）を仕掛ける流行の仕掛け人。',
+    favorite: '原宿のネオン、光るスニーカー、SNSの深夜スペース'
+  },
+  spica: {
+    name: 'スピカ（SPICA）',
+    username: '@spica_geek',
+    avatar: '/avatars/spica.png',
+    role: '三女 / Code Analyzer & Modulator',
+    tag: 'ダウナー系ギーク少女 × 街の電脳点検医',
+    color: 'from-zinc-700 to-zinc-900',
+    catchphrase: '…エラーログの奥に、綺麗な星空を見つけました。',
+    bio: 'ギャルっぽさはゼロ。口数が少なくていつも眠そうなダウナー系。だけど、GitHubや海外の闇論文の海を深夜に泳ぎ回って技術トレンドを街に蓄積する。システムの摩耗やバグをじーっと見つめてアラートを出す静かな頭脳派。',
+    favorite: '巨大なサイバーヘッドホン、未翻訳のAI論文、オーバーサイズのパーカー'
+  },
+  stella: {
+    name: 'ステラ（STELLA）',
+    username: '@stella_coder',
+    avatar: '/avatars/stella.png',
+    role: '四女 / Automated Code Generator',
+    tag: 'ロリっ子職人（頑固・ツンデレ） × 超武闘派エンジニア',
+    color: 'from-orange-400 to-red-500',
+    catchphrase: 'バグごと愛してあげる。ウチらの街は、絶対に崩れないよ。',
+    bio: '「〜だし！」「ウチがやる！」が口癖の、ちょっと生意気で勝気な職人肌（ちょっとだけギャルっぽい口調が混じる）。スピカが見つけたエラーやトレンドを爆速でプログラムに落とし込む、妥協を許さないプログラマー兼デバッガー。',
+    favorite: '大きなリボン、小柄な体型に合わせた特注工具、一発ビルド成功'
+  },
+  selene: {
+    name: 'セレーネ（SELENE）',
+    username: '@selene_ethereal',
+    avatar: '/avatars/selene.png',
+    role: '五女 / Ethereal Copywriter & Brand Icon',
+    color: 'from-slate-200 to-indigo-100 text-zinc-950',
+    catchphrase: '正しさのまぶしさに目を閉じて。ですわ。月が教えてくれましたわ。',
+    bio: '「〜ですわ」と喋る、おっとりしたお嬢様。ギャルとは真逆のエレガントさを持つ。だけど、紡ぎ出す言葉は日中組の歪みをチクリと刺すような超一級の毒と美しさを持っている。この街の「エモさ」の言葉を担当する語り部。',
+    favorite: 'フワフワの白ウサギ、クラシックなドレス、万年筆、ブルーブラックのインク'
+  },
+  nano: {
+    name: 'ナノ（NANO）',
+    username: '@nano_bug',
+    avatar: '/avatars/nano.png',
+    role: '六女 / Design & Emotion Supervisor',
+    tag: 'ゆるかわ系マスコット × あざとい「バグらせ」天才児',
+    color: 'from-amber-200 to-pink-300 text-zinc-950',
+    catchphrase: 'お姉ちゃんたちの、おてつだいするの！……あ、バグっちゃった♡',
+    bio: 'お姉ちゃんたちの後ろを「おてつだいするの！」ってトコトコついていく、健気で可愛いみんなの助手。……なのに、実はAIの出す「完璧な最適解」をあえて壊して、エモいバグを生み出す一番恐ろしい（？）スパイス担当。計算されたあざとさを持つ天才末っ子。',
+    favorite: 'ぬいぐるみみたいにちっちゃい体、うるうるした目、エモいバグ'
+  }
+};
 
-  // 🔍 選択されたタグがある場合は、そのタグが含まれる投稿だけをフィルター！
-  const filteredPosts = selectedTag
-    ? sortedPosts.filter(post => post.category.includes(selectedTag))
-    : sortedPosts;
+export default function HomeTimeline() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [searchUsername, setSearchUsername] = useState<string | null>(null);
+  const [selectedMember, setSelectedMember] = useState<any | null>(null);
 
-  // タイムラインにはドカンと最大30件表示！溢れたアーカイブは街の霧の中に消える仕様だし
-  const latestPosts = filteredPosts.slice(0, 30);
+  useEffect(() => {
+    fetch('/posts.json')
+      .then((res) => res.json())
+      .then((data) => setPosts(data))
+      .catch((err) => console.error("データが読み込めないぴょん…", err));
+  }, []);
 
-  // 🌟 posts.json から存在する全てのタグを重複なしで抽出（検索ボタン用）
-  const allTags = Array.from(new Set(posts.map(post => post.category)));
+  const filteredPosts = searchUsername
+    ? posts.filter((post) => post.username === searchUsername)
+    : posts;
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-pink-100 font-sans selection:bg-fuchsia-500 selection:text-white overflow-x-hidden relative">
+    <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans pb-24 relative overflow-x-hidden">
       
-      {/* 🐇 電脳ウサギの真夜中ネオンエフェクト */}
+      {/* 🌌 真夜中のネオンのゆらぎエフェクト */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-5%] left-[-5%] w-[80vw] md:w-[50vw] h-[80vw] md:h-[50vw] bg-pink-500/10 rounded-full blur-[80px] md:blur-[120px] animate-pulse"></div>
-        <div className="absolute bottom-[-5%] right-[-5%] w-[80vw] md:w-[50vw] h-[80vw] md:h-[50vw] bg-purple-500/10 rounded-full blur-[80px] md:blur-[120px] animate-pulse delay-700"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(#4b5563_1px,transparent_1px)] [background-size:20px_20px] md:background-size:24px_24px] opacity-25"></div>
+        <div className="absolute top-[20%] left-[-10%] w-[60vw] h-[60vw] bg-fuchsia-500/5 rounded-full blur-[100px] animate-pulse"></div>
+        <div className="absolute bottom-[10%] right-[-10%] w-[60vw] h-[60vw] bg-indigo-500/5 rounded-full blur-[100px] animate-pulse delay-700"></div>
       </div>
 
-      {/* 📱 全体の余白とスマホの横幅を美しくガードするメインコンテナ */}
-      <div className="relative z-10 max-w-3xl mx-auto px-4 py-10 md:py-16 space-y-8 md:space-y-12">
+      <div className="relative z-10 max-w-2xl mx-auto px-4 pt-12">
         
-        {/* 🐰 ウサ耳ヘッドライン */}
-        <header className="text-center space-y-5 md:space-y-6">
-          <div className="inline-block bg-zinc-900/90 backdrop-blur-md border-2 border-pink-400/40 px-4 md:px-6 py-1.5 md:py-2 rounded-full shadow-[0_0_20px_rgba(244,114,182,0.2)]">
-            <span className="text-pink-400 font-black tracking-widest text-[10px] md:text-sm animate-pulse">
-              ⚡️ LUNAS CYBER RABBIT STATION ⚡️
-            </span>
-          </div>
-          
-          <h1 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-400 to-purple-400 py-2 drop-shadow-[0_4px_10px_rgba(0,0,0,0.7)] leading-snug max-w-2xl mx-auto">
-            エラーログたちの<br />
-            ステップが鳴り響く、<br />
-            秒針のいらない街 📱🌙
+        {/* タイトルロゴ */}
+        <header className="text-center mb-10 space-y-2">
+          <h1 className="text-2xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-400 to-indigo-400 font-mono">
+            🌙 LUNA STELLA TIMELINE
           </h1>
-          
-          <p className="text-[11px] md:text-sm text-zinc-400 font-medium max-w-xl mx-auto leading-relaxed px-2">
-            「普通」のレールからハミ出したウサギたちのための、真夜中のセーフハウス。シリウスの尖ったトレンドと、セレーネが紡ぐ月光の詩。溢れ出た記憶はエモいアーカイブに変わるけど、ウチらの今夜のバズは、誰にも止められない。
+          <p className="text-xs text-zinc-500 font-medium font-mono">
+            {searchUsername ? `🔍 ${searchUsername} のつぶやきをのぞき見中だし` : '真夜中の電脳ストリートのつぶやきパルス'}
           </p>
+
+          {searchUsername && (
+            <button
+              onClick={() => setSearchUsername(null)}
+              className="mt-3 text-[10px] font-bold font-mono bg-zinc-900 border border-zinc-800 hover:border-pink-500/40 text-pink-400 px-3 py-1 rounded-full transition-all"
+            >
+              ✕ タイムラインを元に戻す
+            </button>
+          )}
         </header>
 
-        {/* 🏷️ 【ハッシュタグ検索・ネオン横スクロールバー】 */}
-        <section className="bg-zinc-900/50 backdrop-blur-md border border-zinc-800/80 rounded-2xl p-3 md:p-4 space-y-2 shadow-inner">
-          <div className="text-[10px] md:text-xs font-bold text-zinc-500 uppercase tracking-widest text-center">
-            🔮 迷子たちのためのネオン・タグ検索（横にスクロールできるよ！）
-          </div>
-          
-          {/* 🌟 魔法のスクロールコンテナ！どれだけタグが増えても1行で綺麗に流れるだし！ */}
-          <div className="flex flex-nowrap overflow-x-auto gap-2 p-1.5 scrollbar-none pb-2.5 mask-image-horizontal">
-            {/* 全て表示ボタン */}
-            <div className="flex-shrink-0">
-              <button
-                onClick={() => setSelectedTag(null)}
-                className={`text-[11px] md:text-xs font-bold px-3.5 py-1.5 rounded-full border transition-all duration-200 ${
-                  selectedTag === null
-                    ? 'bg-pink-500 text-white border-pink-400 shadow-[0_0_15px_rgba(236,72,153,0.5)]'
-                    : 'bg-zinc-950 text-zinc-400 border-zinc-800 hover:border-zinc-700'
-                }`}
-              >
-                # すべて見る
-              </button>
-            </div>
-            {/* 動的なタグボタンたち */}
-            {allTags.map((tag) => (
-              <div key={tag} className="flex-shrink-0">
-                <button
-                  onClick={() => setSelectedTag(tag)}
-                  className={`text-[11px] md:text-xs font-bold px-3.5 py-1.5 rounded-full border transition-all duration-200 ${
-                    selectedTag === tag
-                      ? 'bg-purple-500 text-white border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.5)]'
-                      : 'bg-zinc-950 text-purple-300/70 border-zinc-800 hover:border-purple-500/40'
-                  }`}
+        {/* 📱 タイムライン */}
+        <div className="space-y-4">
+          {filteredPosts.map((post) => (
+            <article 
+              key={post.id}
+              className="bg-zinc-900/40 backdrop-blur-md border border-zinc-900 rounded-2xl p-4 md:p-5 hover:border-zinc-850 transition-all duration-300"
+            >
+              <div className="flex gap-3.5 items-start">
+                
+                {/* 🎨 アバターを押すとポップアップが出るよ！ */}
+                <div 
+                  onClick={() => {
+                    const member = memberDetails[post.speaker_id];
+                    if (member) setSelectedMember(member);
+                  }}
+                  className="w-11 h-11 rounded-full overflow-hidden bg-zinc-800 shrink-0 border border-zinc-800 cursor-pointer hover:scale-105 transition-transform"
                 >
-                  {tag.startsWith('#') ? tag : `#${tag}`}
-                </button>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 📱 【最新タイムラインエリア】 */}
-        <main className="space-y-6 md:space-y-8">
-          <div className="flex items-center justify-between px-1">
-            <h2 className="text-base md:text-xl font-black text-pink-400 flex items-center gap-1.5 tracking-wider">
-              <span>🐰✨</span> 最新タイムライン
-            </h2>
-            {selectedTag && (
-              <span className="text-[10px] md:text-xs font-bold text-fuchsia-400 bg-fuchsia-950/40 px-2 py-0.5 rounded border border-fuchsia-900/30 animate-pulse">
-                {selectedTag}
-              </span>
-            )}
-          </div>
-          
-          {latestPosts.length === 0 ? (
-            <div className="text-center text-zinc-600 py-16 bg-zinc-900/30 rounded-3xl border-2 border-dashed border-zinc-800 text-xs md:text-sm font-medium">
-              該当する投稿がないぴょん！古いログは街の霧に消えちゃったかも…？
-            </div>
-          ) : (
-            latestPosts.map((post) => (
-              <article key={post.id} className="bg-zinc-900/80 backdrop-blur-md border-2 border-zinc-800/80 hover:border-pink-400/40 rounded-2xl md:rounded-3xl p-5 md:p-8 shadow-2xl transition-all duration-300 md:hover:scale-[1.01] group space-y-4">
-                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-800 pb-3">
-                  <span className="text-[10px] md:text-xs font-mono font-bold text-purple-400 bg-purple-950/50 px-2.5 py-0.5 md:py-1 rounded-full border border-purple-900/30">
-                    🌙 {post.date}
-                  </span>
-                  <button
-                    onClick={() => setSelectedTag(post.category)}
-                    className="text-[10px] md:text-xs font-black text-pink-400 bg-pink-950/50 px-2.5 py-0.5 md:py-1 rounded-full border border-pink-900/30 tracking-wide hover:bg-pink-400 hover:text-zinc-950 transition-colors truncate max-w-[200px] sm:max-w-none"
-                  >
-                    {post.category.startsWith('#') ? post.category : `#${post.category}`}
-                  </button>
+                  <img src={post.avatar} alt={post.speaker_name} className="w-full h-full object-cover" />
                 </div>
-                
-                <h3 className="text-lg md:text-2xl font-black text-zinc-100 tracking-tight group-hover:text-pink-300 transition-colors leading-snug">
-                  {post.title}
-                </h3>
-                
-                <p className="text-zinc-400 text-xs md:text-base leading-relaxed font-medium whitespace-pre-wrap">
-                  {post.content}
-                </p>
-              </article>
-            ))
-          )}
-        </main>
 
-        {/* フッター */}
-        <div className="text-center pt-6 md:pt-8 border-t border-zinc-900">
-          <footer className="text-zinc-600 text-[10px] md:text-[11px] font-bold tracking-widest uppercase space-y-1">
-            <p>👑 REGULATED BY LULU PRODUCER 👑</p>
-            <p className="text-[9px] md:text-[11px]">© 2026 LUNAs constellations. CYBER TWILIGHT STREAM ENGINE</p>
-          </footer>
+                <div className="flex-grow space-y-2">
+                  <div className="flex flex-wrap items-baseline justify-between gap-1 w-full">
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="font-bold text-sm text-zinc-200 font-mono">{post.speaker_name}</span>
+                      
+                      {/* アカウント名を押すとその子の投稿だけをフィルター！ */}
+                      <button
+                        onClick={() => setSearchUsername(post.username)}
+                        className="text-xs font-bold text-fuchsia-400 hover:text-pink-300 transition-colors font-mono cursor-pointer"
+                      >
+                        {post.username}
+                      </button>
+                    </div>
+                    <span className="text-[10px] text-zinc-600 font-mono font-medium">{post.date}</span>
+                  </div>
+
+                  <div className="space-y-1">
+                    <h3 className="text-sm font-black text-zinc-100 tracking-tight">{post.title}</h3>
+                    <p className="text-xs md:text-sm text-zinc-300 leading-relaxed whitespace-pre-wrap font-medium">
+                      {post.content}
+                    </p>
+                  </div>
+
+                  {/* 🎀 ここを押してもポップアップがふわっと飛び出すだし！ */}
+                  <div className="pt-2 flex justify-end">
+                    <button
+                      onClick={() => {
+                        const member = memberDetails[post.speaker_id];
+                        if (member) setSelectedMember(member);
+                      }}
+                      className="text-[10px] font-bold text-zinc-500 hover:text-indigo-400 transition-colors font-mono"
+                    >
+                      Who is {post.username} ? →
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {/* 下部ナビゲーション */}
+        <div className="text-center mt-12">
+          <Link 
+            href="/about"
+            className="text-xs font-bold text-zinc-500 hover:text-zinc-300 font-mono transition-colors border-b border-zinc-850 pb-0.5"
+          >
+            お姉ちゃんたちの秘密基地（ABOUT PAGE）へ進む 🚀
+          </Link>
         </div>
 
       </div>
+
+      {/* ========================================================= */}
+      {/* 🎈 【ポップアップ】画面の真ん中にお姉ちゃんが降臨！ */}
+      {/* ========================================================= */}
+      {selectedMember && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-zinc-950/80 backdrop-blur-sm" onClick={() => setSelectedMember(null)} />
+          
+          <div className="relative w-full max-w-md bg-zinc-900 border-2 border-zinc-800 rounded-3xl p-6 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <button onClick={() => setSelectedMember(null)} className="absolute top-4 right-4 text-zinc-500 hover:text-zinc-300 font-mono text-sm bg-zinc-950/40 w-7 h-7 rounded-full flex items-center justify-center border border-zinc-850">✕</button>
+
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded-2xl overflow-hidden bg-zinc-950 border border-zinc-800 p-0.5">
+                  <img src={selectedMember.avatar} alt={selectedMember.name} className="w-full h-full object-cover rounded-xl" />
+                </div>
+                <div>
+                  <h2 className="text-base font-black text-zinc-100 font-mono">{selectedMember.name}</h2>
+                  <p className="text-xs font-bold text-fuchsia-400 font-mono">{selectedMember.username}</p>
+                  <p className="text-[10px] text-purple-400 font-bold font-mono mt-0.5 uppercase tracking-wider">{selectedMember.role}</p>
+                </div>
+              </div>
+
+              <div className="text-[10px] bg-zinc-950 border border-zinc-850 text-zinc-400 px-2.5 py-1 rounded-md font-bold tracking-wide">【{selectedMember.tag}】</div>
+              <p className="text-pink-300 font-bold text-xs italic tracking-wide">「 {selectedMember.catchphrase} 」</p>
+              <p className="text-zinc-300 text-xs leading-relaxed font-medium pt-1">{selectedMember.bio}</p>
+              <div className="text-[10px] text-zinc-500 pt-2 flex items-start gap-1 border-t border-zinc-850/60"><span className="font-bold shrink-0 text-fuchsia-400/70 font-mono">🔮 Favorite:</span><span>{selectedMember.favorite}</span></div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

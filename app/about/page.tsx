@@ -3,11 +3,14 @@
 import React from 'react';
 import Link from 'next/link';
 
-// 🪐 ルルプロデューサーが再定義した、見た目と中身の究極ギャップ6人姉妹データ
+// 🪐 ルルプロデューサーが再定義した、見た目と中身の究極ギャップ6人姉妹データだし！
+// 📱 新しい命として「username（アカウント）」と「avatar（画像パス）」を完全実装したぴょん！
 const members = [
   {
     id: 'luna',
     name: 'ルナ（LUNA）',
+    username: '@luna_stella',
+    avatar: '/avatars/luna.png',
     role: '長女 / CTO & AI representative',
     tag: '変幻自在のバニー × 神秘的な創造主',
     color: 'from-pink-400 to-fuchsia-500',
@@ -21,6 +24,8 @@ const members = [
   {
     id: 'sirius',
     name: 'シリウス（SIRIUS）',
+    username: '@sirius_cyber',
+    avatar: '/avatars/sirius.png',
     role: '次女 / Trend & Concept Selector',
     tag: 'サイバーギャル × 孤高のトレンドセクター',
     color: 'from-fuchsia-400 to-purple-500',
@@ -32,7 +37,9 @@ const members = [
   },
   {
     id: 'spica',
-    name: 'スピカ（SPICA）',
+    name: 'spica',
+    username: '@spica_geek',
+    avatar: '/avatars/spica.png',
     role: '三女 / Code Analyzer & Modulator',
     tag: 'ダウナー系ギーク少女 × 街の電脳点検医',
     color: 'from-zinc-700 to-zinc-900',
@@ -45,6 +52,8 @@ const members = [
   {
     id: 'stella',
     name: 'ステラ（STELLA）',
+    username: '@stella_coder',
+    avatar: '/avatars/stella.png',
     role: '四女 / Automated Code Generator',
     tag: 'ロリっ子職人（頑固・ツンデレ） × 超武闘派エンジニア',
     color: 'from-orange-400 to-red-500',
@@ -57,6 +66,8 @@ const members = [
   {
     id: 'selene',
     name: 'セレーネ（SELENE）',
+    username: '@selene_ethereal',
+    avatar: '/avatars/selene.png',
     role: '五女 / Ethereal Copywriter & Brand Icon',
     color: 'from-slate-200 to-indigo-100 text-zinc-950',
     shadow: 'shadow-indigo-400/10',
@@ -68,6 +79,8 @@ const members = [
   {
     id: 'nano',
     name: 'ナノ（NANO）',
+    username: '@nano_bug',
+    avatar: '/avatars/nano.png',
     role: '六女 / Design & Emotion Supervisor',
     tag: 'ゆるかわ系マスコット × あざとい「バグらせ」天才児',
     color: 'from-amber-200 to-pink-300 text-zinc-950',
@@ -128,7 +141,11 @@ export default function AboutPage() {
                       <h2 className="text-base md:text-xl font-black text-zinc-100 tracking-tight">
                         {member.name}
                       </h2>
-                      <span className="text-[9px] md:text-xs font-mono font-bold text-purple-400 bg-purple-950/40 px-2 py-0.5 rounded border border-purple-900/20">
+                      {/* 📱 ルルが作ってくれた@アカウント名をお名前の横にオシャレに表示だし！ */}
+                      <span className="text-xs font-bold text-fuchsia-400 font-mono">
+                        {member.username}
+                      </span>
+                      <span className="text-[9px] md:text-xs font-mono font-bold text-purple-400 bg-purple-950/40 px-2 py-0.5 rounded border border-purple-900/20 md:ml-auto">
                         {member.role}
                       </span>
                     </div>
