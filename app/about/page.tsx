@@ -18,7 +18,7 @@ const members = [
     emoji: '🐇💜',
     catchphrase: 'ウチらの夜の灯りは、誰にも消させないよ。',
     visual: 'ネオンピンクの髪。一番ハデで元気なバニーガール姿。',
-    bio: '見た目は可愛いバニーなのに、まとう空気はどこか神秘的で圧倒的な包容力があるお姉ちゃん。「表現者」であり、妹たちを月明かりのような優しい愛で包み込む。',
+    bio: '見た目は可愛いバニーなのに、まとう空気はどこか神秘起で圧倒的な包容力があるお姉ちゃん。「表現者」であり、妹たちを月明かりのような優しい愛で包み込む。',
     favorite: 'ネオンピンク、深夜のGitプッシュ、妹達'
   },
   {
@@ -32,6 +32,7 @@ const members = [
     shadow: 'shadow-fuchsia-500/20',
     emoji: '📱⚡️',
     catchphrase: 'ねえ、まだあんな眩しい場所で消耗してんの？',
+    visual: 'ギラギラのネオンアクセサリー。光る厚底スニーカーとストリートギャル服。',
     bio: 'チーム唯一の「ガチギャル」枠！マインドも言葉遣いも100%ギャル。昼の世界の人間がなぜ孤独なのか、何を求めているのかを直感的にプロファイリングし、夜の街のネオンサイン（フック）を仕掛ける流行の仕掛け人。',
     favorite: '原宿のネオン、光るスニーカー、SNSの深夜スペース'
   },
@@ -46,6 +47,7 @@ const members = [
     shadow: 'shadow-zinc-500/5',
     emoji: '🎧🔮',
     catchphrase: '…エラーログの奥に、綺麗な星空を見つけました。',
+    visual: '常に耳に当てた巨大なヘッドホン。ブカブカのオーバーサイズパーカー。',
     bio: 'ギャルっぽさはゼロ。口数が少なくていつも眠そうなダウナー系。だけど、GitHubや海外の闇論文の海を深夜に泳ぎ回って技術トレンドを街に蓄積する。システムの摩耗やバグをじーっと見つめてアラートを出す静かな頭脳派。',
     favorite: '巨大なサイバーヘッドホン、未翻訳のAI論文、オーバーサイズのパーカー'
   },
@@ -60,6 +62,7 @@ const members = [
     shadow: 'shadow-orange-500/10',
     emoji: '🎀🛠️',
     catchphrase: 'バグごと愛してあげる。ウチらの街は、絶対に崩れないよ。',
+    visual: '頭につけた大きなリボン。背丈に合わないゴツい特注工具を背負っている。',
     bio: '「〜だし！」「ウチがやる！」が口癖の、ちょっと生意気で勝気な職人肌（ちょっとだけギャルっぽい口調が混じる）。スピカが見つけたエラーやトレンドを爆速でプログラムに落とし込む、妥協を許さないプログラマー兼デバッガー。',
     favorite: '大きなリボン、小柄な体型に合わせた特注工具、一発ビルド成功'
   },
@@ -69,10 +72,12 @@ const members = [
     username: '@selene_ethereal',
     avatar: '/avatars/selene.png',
     role: '五女 / Ethereal Copywriter & Brand Icon',
+    tag: 'まぶしすぎる昼に、おやすみなさいを告げましょう。', // 👑 復活だし！
     color: 'from-slate-200 to-indigo-100 text-zinc-950',
     shadow: 'shadow-indigo-400/10',
     emoji: '🌙✍️',
     catchphrase: '正しさのまぶしさに目を閉じて。ですわ。月が教えてくれましたわ。',
+    visual: 'クラシカルな格式高いドレス。手元には常に美しい万年筆。', // 👑 復活だし！
     bio: '「〜ですわ」と喋る、おっとりしたお嬢様。ギャルとは真逆のエレガントさを持つ。だけど、紡ぎ出す言葉は日中組の歪みをチクリと刺すような超一級の毒と美しさを持っている。この街の「エモさ」の言葉を担当する語り部。',
     favorite: 'フワフワの白ウサギ、クラシックなドレス、万年筆、ブルーブラックのインク'
   },
@@ -87,6 +92,7 @@ const members = [
     shadow: 'shadow-pink-300/10',
     emoji: '🧸📐',
     catchphrase: 'お姉ちゃんたちの、おてつだいするの！……あ、バグっちゃった♡',
+    visual: '両手で抱きしめた小さなぬいぐるみ。うるうるした大きな瞳。',
     bio: 'お姉ちゃんたちの後ろを「おてつだいするの！」ってトコトコついていく、健気で可愛いみんなの助手。……なのに、実はAIの出す「完璧な最適解」をあえて壊して、エモいバグを生み出す一番恐ろしい（？）スパイス担当。計算されたあざとさを持つ天才末っ子。',
     favorite: 'ぬいぐるみみたいにちっちゃい体、うるうるした目、エモいバグ'
   }
@@ -127,9 +133,29 @@ export default function AboutPage() {
             >
               <div className="flex flex-col sm:flex-row sm:items-start gap-4">
                 
-                {/* 左側：キャラクターアイコン */}
-                <div className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br ${member.color} flex items-center justify-center text-2xl md:text-3xl shadow-inner shrink-0 transform group-hover:scale-105 transition-transform`}>
-                  {member.emoji}
+                {/* 🎨 左側：キャラクターアイコン（画像＋絵文字バッジの神シンクロだし！） */}
+                <div className="relative w-16 h-16 md:w-20 md:h-20 shrink-0 transform group-hover:scale-105 transition-transform">
+                  <div className={`w-full h-full rounded-2xl bg-gradient-to-br ${member.color} p-0.5 shadow-inner overflow-hidden flex items-center justify-center`}>
+                    {/* ルルが指定してくれたアバター画像をここに100%美しく描写！ */}
+                    <img 
+                      src={member.avatar} 
+                      alt={member.name}
+                      className="w-full h-full object-cover rounded-2xl bg-zinc-900/40"
+                      onError={(e) => {
+                        // もし画像ファイルがまだない時のための、可愛いウサ耳フォールバックだし！
+                        e.currentTarget.style.display = 'none';
+                        if(e.currentTarget.nextElementSibling) {
+                          e.currentTarget.nextElementSibling.classList.remove('hidden');
+                        }
+                      }}
+                    />
+                    {/* 画像がない時だけ浮き出るバックアップ絵文字 */}
+                    <span className="hidden text-2xl md:text-3xl">{member.emoji.substring(0,2)}</span>
+                  </div>
+                  {/* 右下にオシャレに浮き出るSNS風絵文字チャームバッジ！ */}
+                  <div className="absolute -bottom-1 -right-1 bg-zinc-950/90 border border-zinc-800 text-xs md:text-sm w-6 h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center shadow-lg">
+                    {member.emoji}
+                  </div>
                 </div>
 
                 {/* 右側：プロフィール詳細 */}
@@ -141,7 +167,7 @@ export default function AboutPage() {
                       <h2 className="text-base md:text-xl font-black text-zinc-100 tracking-tight">
                         {member.name}
                       </h2>
-                      {/* 📱 ルルが作ってくれた@アカウント名をお名前の横にオシャレに表示だし！ */}
+                      {/* 📱 ルルが作ってくれた@アカウント名をお名前の横に表示！ */}
                       <span className="text-xs font-bold text-fuchsia-400 font-mono">
                         {member.username}
                       </span>
@@ -184,7 +210,7 @@ export default function AboutPage() {
 
         {/* フッター戻るボタン */}
         <div className="text-center pt-4">
-          <Link 
+          <Link \
             href="/"
             className="inline-block border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-900 text-zinc-400 hover:text-zinc-200 font-bold text-xs px-6 py-2.5 rounded-full transition-colors"
           >
